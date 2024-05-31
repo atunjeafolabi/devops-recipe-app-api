@@ -1,5 +1,5 @@
 FROM nginxinc/nginx-unprivileged:1-alpine
-LABEL maintainer="londonappdeveloper.com"
+LABEL maintainer="atunje.com"
 
 COPY ./default.conf.tpl /etc/nginx/default.conf.tpl
 COPY ./uwsgi_params /etc/nginx/uwsgi_params
@@ -12,13 +12,19 @@ ENV APP_PORT=9000
 USER root
 
 RUN mkdir -p /vol/static && \
-    chmod 755 /vol/static && \
+    mkdir -p /vol/media && \
+    chmod 755 /vol && \
+    chown -R nginx:nginx /vol && \
     touch /etc/nginx/conf.d/default.conf && \
     chown nginx:nginx /etc/nginx/conf.d/default.conf && \
     chmod +x /run.sh
 
-VOLUME /vol/static
-
 USER nginx
+
+# W3: These two voulme declarartions are redundant actually,
+# because we have VOLUME definitions in docker-compose file already
+# However, ECS tasks require that they be defined.
+VOLUME /vol/static
+VOLUME /vol/media
 
 CMD ["/run.sh"]
