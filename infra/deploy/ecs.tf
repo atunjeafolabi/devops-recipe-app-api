@@ -182,3 +182,27 @@ resource "aws_security_group" "ecs_service" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_ecs_service" "api" {
+  name                   = "${local.prefix}-api"
+  cluster                = aws_ecs_cluster.main.name
+  task_definition        = aws_ecs_task_definition.api.family
+  desired_count          = 1 # W3: Consider increasing for intensive applications
+  launch_type            = "FARGATE"
+  platform_version       = "1.4.0"
+  enable_execute_command = true # W3: Allow Systems Manager (EXEC command) on running containers
+
+  network_configuration {
+    # W3: consider changing to false later
+    # Allows public access to the ECS service from the internet
+    # Internet accessible IP will be given.
+    assign_public_ip = true
+
+    subnets = [
+      aws_subnet.public_a.id,
+      aws_subnet.public_b.id
+    ]
+
+    security_groups = [aws_security_group.ecs_service.id]
+  }
+}
