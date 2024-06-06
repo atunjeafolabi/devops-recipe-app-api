@@ -28,3 +28,16 @@ resource "aws_security_group" "lb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+######################################################
+# W3:                                                #
+# There are 3 types of load balancers:               #
+# Application, Network and Gateway load balancers    #
+# In our case, "application" is the right one to use #
+######################################################
+resource "aws_lb" "api" {
+  name               = "${local.prefix}-lb"
+  load_balancer_type = "application"
+  subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+  security_groups    = [aws_security_group.lb.id]
+}
