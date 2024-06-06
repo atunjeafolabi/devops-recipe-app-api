@@ -92,6 +92,11 @@ resource "aws_ecs_task_definition" "api" {
             readOnly      = false
             containerPath = "/vol/web/static"
             sourceVolume  = "static"
+          },
+          {
+            readOnly      = false
+            containerPath = "/vol/web/media"
+            sourceVolume  = "efs-media"
           }
         ],
         logConfiguration = {
@@ -126,6 +131,11 @@ resource "aws_ecs_task_definition" "api" {
             readOnly      = true
             containerPath = "/vol/static"
             sourceVolume  = "static"
+          },
+          {
+            readOnly      = true
+            containerPath = "/vol/media"
+            sourceVolume  = "efs-media"
           }
         ]
         logConfiguration = {
@@ -140,8 +150,34 @@ resource "aws_ecs_task_definition" "api" {
     ]
   )
 
+  ############################################
+  # W3: Ephemeral volume created in ECS task #
+  # for static files (i.e js, css etc)       #
+  #                                          #
+  # Always created in every deployment.      #
+  ############################################
   volume {
     name = "static"
+  }
+
+  #########################################
+  # Volume mounted on EFS for persistent  #
+  # storage of user uploaded media files. #
+  #########################################
+  volume {
+    name = "efs-media"
+    efs_volume_configuration {
+      file_system_id     = aws_efs_file_system.media.id
+      transit_encryption = "ENABLED"
+
+      # W3: To simplify things,
+      # iam permissions is disabled
+      # iam="DISABLED"
+      authorization_config {
+        access_point_id = aws_efs_access_point.media.id
+        iam             = "DISABLED"
+      }
+    }
   }
 
   runtime_platform {
