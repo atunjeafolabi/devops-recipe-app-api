@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from socket import gethostname, gethostbyname
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,16 @@ ALLOWED_HOSTS.extend(
         os.environ.get('ALLOWED_HOSTS', '').split(','),
     )
 )
+
+# W3: Needed for health-check request from ALB
+# The AWS_EXECUTION_ENV variable is automatically
+# added to all ECS tasks.
+#
+# This condition checks if this application is running in ECS,
+# then it appends the internal IP (of where the application is
+# running on ECS) to the allowed hosts
+if os.environ.get('AWS_EXECUTION_ENV'):
+    ALLOWED_HOSTS.append(gethostbyname(gethostname()))
 
 # Application definition
 
