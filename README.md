@@ -43,15 +43,15 @@ docker compose down --volumes
 docker compose up
 ```
 
-## Course Documentation
+## Documentation
 
-This section contains supplementary documentation for the course steps.
+This section contains supplementary documentation for the project.
 
 ### AWS CLI
 
 #### AWS CLI Authentication
 
-This course uses [aws-vault](https://github.com/99designs/aws-vault) to authenticate with the AWS CLI in the terminal.
+This project uses [aws-vault](https://github.com/99designs/aws-vault) to authenticate with the AWS CLI in the terminal.
 
 To authenticate:
 
