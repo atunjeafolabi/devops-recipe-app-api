@@ -1,8 +1,6 @@
-# DevOps Deployment Automation with Terraform, AWS and Docker - Completed
+# DevOps Deployment Automation with Terraform, AWS and Docker
 
-This project contains the starter code for our course: [DevOps Deployment Automation with Terraform, AWS and Docker](https://londonapp.dev/c3).
-
-It contains the code you should have by the end of our [Build a Backend REST API with Python & Django REST Framework - Advanced](https://londonapp.dev/c2) course. We've created this snapshot, in-case we update the aforementioned course in the future.
+This project automatically deploys a `Backend REST API` for recipes built with `Django REST Framework` to AWS.
 
 ## Local Development
 
@@ -45,15 +43,15 @@ docker compose down --volumes
 docker compose up
 ```
 
-## Course Documentation
+## Documentation
 
-This section contains supplementary documentation for the course steps.
+This section contains supplementary documentation for the project.
 
 ### AWS CLI
 
 #### AWS CLI Authentication
 
-This course uses [aws-vault](https://github.com/99designs/aws-vault) to authenticate with the AWS CLI in the terminal.
+This project uses [aws-vault](https://github.com/99designs/aws-vault) to authenticate with the AWS CLI in the terminal.
 
 To authenticate:
 
@@ -99,6 +97,8 @@ docker compose run --rm terraform -chdir=TF_DIR COMMAND
 ```
 
 Where `TF_DIR` is the directory containing the Terraform (`setup` or `deploy`) and `COMMAND` is the Terraform command (e.g. `plan`).
+
+> For initial setup, the developer first runs terraform with the value of TF_DIR as `setup` from his/her local computer. Then the CI/CD pipeline runs terraform with the value of TF_DIR as `deploy`
 
 #### Get outputs from the setup Terraform
 
@@ -198,20 +198,3 @@ git config --global user.email email@example.com
 git config --global user.name "User Name" 
 git config --global push.autoSetupRemote true
 ```
-
-## Other courses
-
-Check out our courses on [londonappdeveloper.com](https://londonappdeveloper.com).
-
-Or find them below:
-
-- [Python for Absolute Beginners](https://londonapp.dev/c4)
-- [Build a Backend REST API with Python & Django REST Framework - Beginner](https://londonapp.dev/c1)
-- [Build a Backend REST API with Python & Django REST Framework - Advanced](https://londonapp.dev/c2)
-- [Deploy a Serverless Django App on Google App Engine](https://londonapp.dev/c5)
-
-W3 Test 123
-trigger pipeline
-trigger pipeline again
-trigger again
-Another trigger
