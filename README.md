@@ -98,6 +98,8 @@ docker compose run --rm terraform -chdir=TF_DIR COMMAND
 
 Where `TF_DIR` is the directory containing the Terraform (`setup` or `deploy`) and `COMMAND` is the Terraform command (e.g. `plan`).
 
+> For initial setup, the developer first runs terraform with the value of TF_DIR as `setup` from his/her local computer. Then the CI/CD pipeline runs terraform with the value of TF_DIR as `deploy`
+
 #### Get outputs from the setup Terraform
 
 ```
