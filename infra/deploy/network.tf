@@ -19,9 +19,13 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-##################################################
-# Public subnets for load balancer public access #
-##################################################
+#########################################################
+# Public subnets for load balancer public access        #
+#                                                       #
+# With map_public_ip_on_launch=true, all resources      #
+# created within this public subnet(e.g ALB) will       #
+# automatically be allocated a public IP                #
+#########################################################
 resource "aws_subnet" "public_a" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.1.1.0/24"
